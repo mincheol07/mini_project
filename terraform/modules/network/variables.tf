@@ -8,9 +8,21 @@ variable "vpc_id" {
 }
 
 #
-variable "public_subnet" {
-    description = "nat gateway를 위한 서브넷"
-    type = string
+variable "public_subnet_ids" {
+    description = "nat, igw 라우팅 테이블 연결을 위한 서브넷"
+    type = list(string)
   
 }
 
+variable "private_subnet_ids" {
+    description = "nat 라우팅 테이블 연결을 위한 서브넷"
+    type = list(string)
+  
+}
+
+
+variable "cidr_block" {
+    description = "cidr 블록 지정"
+    type = string
+  
+}

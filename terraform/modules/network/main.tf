@@ -27,19 +27,38 @@ resource "aws_nat_gateway" "main_NAT" {
   
 }
 
-# 라우팅 테이블 인터넷 게이트웨이 연결
+# 라우팅 테이블 생성 인터넷 게이트웨이 연결
 resource "aws_route_table" "igw_rt" {
   vpc_id = var.vpc_id
 
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = var.cidr_block
     gateway_id = aws_internet_gateway.main_IGW.id
   }
   
 }
 
+# 라우팅 테이블 생성 nat 게이트웨이 연결
+resource "aws_route_table" "nat_rt" {
+  vpc_id = var.vpc_id
 
-resource "aws_route_table" "nat" {
+  route {
+    cidr_block = var.cidr_block
+    gateway_id = aws_nat_gateway.main_NAT.id
+  }
+  
+}
+
+
+resource "aws_route_table_association" "igw_connect" {
+  for_each = toset(var.public_subnet_ids)
+  route_table_id = aws_route_table.igw_rt.id
+}
+
+
+resource "aws_route_table_association" "nat_connect" {
+  for_each = toset(var.private_subnet_ids)
+  route_table_id = aws_route_table.nat_rt.id
   
 }

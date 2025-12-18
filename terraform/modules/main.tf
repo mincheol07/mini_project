@@ -28,6 +28,23 @@ module "network" {
     source = "./network"
 
     vpc_id = module.vpc.vpc_id
-    public_subnet = module.vpc.public_subnet[*]
+    public_subnet_ids = module.vpc.public_subnet[*]
+    private_subnet_ids = module.vpc.private_subnet[*]
+
+    cidr_block = "0.0.0.0/0"
+  
+}
+
+
+
+
+module "compute" {
+    source = "./compute"
+
+    public_subnet_ids = module.vpc.public_subnet[*]
+    private_subnet_ids = module.vpc.private_subnet[*]
+
+    ami_value = "ami-0b818a04bc9c2133c"
+    instance_type_value = "t2.miro"
   
 }
