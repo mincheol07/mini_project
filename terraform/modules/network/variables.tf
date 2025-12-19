@@ -21,8 +21,27 @@ variable "private_subnet_ids" {
 }
 
 
-variable "cidr_block" {
+variable "cidr_block_all" {
     description = "cidr 블록 지정"
+    type = string
+  
+}
+
+variable "cidr_block_bastion" {
+    description = "bastion에서만 접속 가능"
+    type = string
+  
+}
+
+variable "cidr_block_private_web" {
+    description = "private 서브넷 cidr ip"
+    type = list(string)
+  
+}
+
+
+variable "ip_protocol_tcp" {
+    description = "ip 프로토콜 지정"
     type = string
   
 }

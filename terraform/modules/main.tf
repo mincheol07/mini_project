@@ -31,7 +31,14 @@ module "network" {
     public_subnet_ids = module.vpc.public_subnet[*]
     private_subnet_ids = module.vpc.private_subnet[*]
 
-    cidr_block = "0.0.0.0/0"
+    cidr_block_all = "0.0.0.0/0"
+    cidr_block_bastion = "10.0.1.0/24"
+    ip_protocol_tcp = "tcp"
+
+    cidr_block_private_web = [
+        "10.0.3.0/24",
+        "10.0.4.0/24"
+    ]
   
 }
 
