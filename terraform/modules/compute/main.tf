@@ -11,13 +11,31 @@ resource "aws_instance" "bastion_host" {
   
 }
 
-
+# auto scaling group 템플릿
 resource "aws_launch_template" "auto_template" {
     name = "auto_template"
     image_id = var.ami_value
     instance_type = var.instance_type_value
 
+    vpc_security_group_ids = [var.security_group_id]
+
+    monitoring {
+      enabled = false
+    }
+
+
+
+    lifecycle {
+      create_before_destroy = true
+    }
     
+
+    tag_specifications {
+      resource_type = "instance"
+      tags = {
+        Name = "asg_instance"
+      }
+    }
 
   
 }

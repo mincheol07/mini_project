@@ -53,5 +53,6 @@ module "compute" {
 
     ami_value = "ami-0b818a04bc9c2133c"
     instance_type_value = "t2.miro"
+    security_group_id = module.network.web_se_group
   
 }

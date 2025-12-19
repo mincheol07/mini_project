@@ -22,3 +22,9 @@ variable "instance_type_value" {
     type = string
   
 }
+
+variable "security_group_id" {
+    description = "보안그룹"
+    type = string
+  
+}
