@@ -4,6 +4,6 @@ resource "tls_private_key" "key" {
 }
 
 resource "aws_key_pair" "key" {
-  key_name   = "my-key"  # 그냥 이렇게
+  key_name   = "my-key"  
   public_key = tls_private_key.key.public_key_openssh
 }

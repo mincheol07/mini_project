@@ -56,3 +56,17 @@ module "compute" {
     security_group_id = module.network.web_se_group
   
 }
+
+module "asg&lb" {
+    source = "./asg&lb"
+
+    private_subnet_ids = [module.vpc.private_subnet[0], module.vpc.private_subnet[2]]
+    group_name = "main_group"
+    group_max_size = "5"
+    group_min_size = "2"
+    group_desired_capacity = "2"
+
+    launch_config = module.compute.launch_template
+
+  
+}
