@@ -67,6 +67,7 @@ module "asg&lb" {
     group_desired_capacity = "2"
 
     launch_config = module.compute.launch_template
+    security_group_web = module.network.web_se_group
 
   
 }

@@ -35,3 +35,9 @@ variable "launch_config" {
     type = string
   
 }
+
+variable "security_group_web" {
+    description = "웹 ec2 보안그룹"
+    type = string
+  
+}
