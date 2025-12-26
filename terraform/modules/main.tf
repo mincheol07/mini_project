@@ -57,8 +57,8 @@ module "compute" {
   
 }
 
-module "asg&lb" {
-    source = "./asg&lb"
+module "asglb" {
+    source = "./asglb"
 
     private_subnet_ids = [module.vpc.private_subnet[0], module.vpc.private_subnet[2]]
     group_name = "main_group"

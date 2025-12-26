@@ -8,3 +8,4 @@ crash.*.log
 *.pem
 *.key
 *.log
+.DS_Store
