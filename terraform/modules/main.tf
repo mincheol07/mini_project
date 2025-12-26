@@ -68,6 +68,36 @@ module "asg&lb" {
 
     launch_config = module.compute.launch_template
     security_group_web = module.network.web_se_group
+    vpc_id = module.vpc.vpc_id
 
+    auto_group_policy_var = {
+      name = "alb_group_policy"
+      policy_type = "forward"
+    }
+    
+    alb_var = {
+      name = "main_alb"
+      load_balancer_type = "application"
+    }
+
+    alb_target_group_var = {
+      name = "alb_target_group"
+      port = 80
+      protocol = "HTTP"
+      target_type = "instance"
+
+      path = "/healthy_check"
+      healthy_threshold = 2
+      unhealthy_threshold = 2
+      timeout = 5
+      interval = 10
+      matcher = "200"
+    }
+
+    alb_listener_var = {
+      port = "80"
+      protocol = "http"
+      type = "forward"
+    }
   
 }

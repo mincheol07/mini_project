@@ -41,3 +41,63 @@ variable "security_group_web" {
     type = string
   
 }
+
+variable "vpc_id" {
+    description = "vpc id"
+    type = string
+  
+}
+
+
+variable "auto_group_policy_var" {
+    description = "오토스케일 그룹 정책 변수"
+    type = object({
+      name = string
+      policy_type = string
+      predefined_metric_type = string
+      target_value = number
+
+      
+    })
+  
+}
+
+variable "alb_var" {
+    description = "alb 변수"
+    type = object({
+      name = string
+      load_balancer_type = string
+    })
+  
+}
+
+
+variable "alb_target_group_var" {
+    description = "alb 타겟 그룹 변수"
+    type = object({
+      name = string
+      port = number
+      protocol = string
+      target_type = string
+
+      path = string
+      healthy_threshold = number
+      unhealthy_threshold = number
+      timeout = number
+      interval = number
+      matcher = string
+    })
+  
+}
+
+variable "alb_listener_var" {
+
+    description = "alb 리스너"
+
+    type = object({
+      port = string
+      protocol = string
+      type = string
+    })
+  
+}
