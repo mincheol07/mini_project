@@ -20,11 +20,17 @@ variable "vpc_az" {
 
 variable "public_subnet" {
     description = "public 서브넷"
-    type = map(string)
+    type = object({
+      az = string
+      cidr = string
+    })
 
 }
 
 variable "private_subnet" {
     description = "private 서브넷"
-    type = map(string)
+    type = object({
+      az = string
+      cidr = string
+    })
 }

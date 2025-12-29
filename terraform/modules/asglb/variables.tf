@@ -101,3 +101,9 @@ variable "alb_listener_var" {
     })
   
 }
+
+variable "public_subnet_ids" {
+    description = "퍼블릭 서브넷"
+    type = list(string)
+  
+}

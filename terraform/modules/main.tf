@@ -7,18 +7,18 @@ module "vpc" {
         "ap-northeast-2c"
     ]
     
-    # 2. 필수 변수: public_subnet 전달 (Key = AZ, Value = CIDR)
+    # 2. 필수 변수: public_subnet 전달 오브젝트 형식
     public_subnet = {
-        "ap-northeast-2a" = "10.0.1.0/24",
-        "ap-northeast-2c" = "10.0.2.0/24"
+        "ap-northeast-2a-1" = { az = "ap-northeast-2a", cidr = "10.0.1.0/24"},
+        "ap-northeast-2c-1" = { az = "ap-nortjeast-2c", cidr = "10.0.2.0/24"}
     }
     
-    # 3. 필수 변수: private_subnet 전달 (Key = AZ, Value = CIDR)
+    # 3. 필수 변수: private_subnet 전달 오브젝트 형식
     private_subnet = {
-        "ap-northeast-2a" = "10.0.3.0/24",
-        "ap-northeast-2a" = "10.0.5.0/24",
-        "ap-northeast-2c" = "10.0.4.0/24"
-        "ap-northeast-2c" = "10.0.6.0/24",
+        "ap-northeast-2a-1" = { az = "ap-northeast-2a", cidr = "10.0.3.0/24"},
+        "ap-northeast-2a-2" = { az = "ap-northeast-2c", cidr = "10.0.5.0/24"},
+        "ap-northeast-2c-1" = { az = "ap-northeast-2a", cidr = "10.0.4.0/24"},
+        "ap-northeast-2c-2" = { az = "ap-northeast-2c" "10.0.6.0/24"
     }
     
 }
@@ -73,6 +73,8 @@ module "asglb" {
     auto_group_policy_var = {
       name = "alb_group_policy"
       policy_type = "forward"
+      predefined_metric_type = "ASGAverageCPUUtilization"
+      target_value = 70.0
     }
     
     alb_var = {
@@ -99,5 +101,7 @@ module "asglb" {
       protocol = "http"
       type = "forward"
     }
+
+    public_subnet_ids = module.vpc.public_subnet
   
 }

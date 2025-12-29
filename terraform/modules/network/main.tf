@@ -34,7 +34,7 @@ resource "aws_eip" "nat" {
 # nat 게이트웨이 생성
 resource "aws_nat_gateway" "main_NAT" {
   allocation_id = aws_eip.nat.id
-  subnet_id = var.public_subnet[0]
+  subnet_id = var.public_subnet_ids[0]
   
 }
 
@@ -64,12 +64,14 @@ resource "aws_route_table" "nat_rt" {
 
 resource "aws_route_table_association" "igw_connect" {
   for_each = toset(var.public_subnet_ids)
+  subnet_id = each.key
   route_table_id = aws_route_table.igw_rt.id
 }
 
 
 resource "aws_route_table_association" "nat_connect" {
   for_each = toset(var.private_subnet_ids)
+  subnet_id = each.key
   route_table_id = aws_route_table.nat_rt.id
   
 }

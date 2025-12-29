@@ -50,6 +50,8 @@
     name = var.alb_var.name
     internal = false
     load_balancer_type = var.alb_var.load_balancer_type
+
+    subnets = var.public_subnet_ids
     security_groups = [var.security_group_web]
     
 

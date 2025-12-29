@@ -20,7 +20,7 @@ resource "aws_subnet" "public" {
   }
 }
 
-
+# 10.0.3.0, 10.0.4.0 10.0.5.0 10.0.6.0
 resource "aws_subnet" "private" {
 
   for_each = var.private_subnet
