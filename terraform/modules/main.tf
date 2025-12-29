@@ -10,7 +10,7 @@ module "vpc" {
     # 2. 필수 변수: public_subnet 전달 오브젝트 형식
     public_subnet = {
         "ap-northeast-2a-1" = { az = "ap-northeast-2a", cidr = "10.0.1.0/24"},
-        "ap-northeast-2c-1" = { az = "ap-nortjeast-2c", cidr = "10.0.2.0/24"}
+        "ap-northeast-2c-1" = { az = "ap-northeast-2c", cidr = "10.0.2.0/24"}
     }
     
     # 3. 필수 변수: private_subnet 전달 오브젝트 형식
@@ -18,9 +18,10 @@ module "vpc" {
         "ap-northeast-2a-1" = { az = "ap-northeast-2a", cidr = "10.0.3.0/24"},
         "ap-northeast-2a-2" = { az = "ap-northeast-2c", cidr = "10.0.5.0/24"},
         "ap-northeast-2c-1" = { az = "ap-northeast-2a", cidr = "10.0.4.0/24"},
-        "ap-northeast-2c-2" = { az = "ap-northeast-2c" "10.0.6.0/24"
+        "ap-northeast-2c-2" = { az = "ap-northeast-2c", cidr = "10.0.6.0/24"
     }
     
+ }
 }
 
 
@@ -66,24 +67,24 @@ module "asglb" {
     group_min_size = "2"
     group_desired_capacity = "2"
 
-    launch_config = module.compute.launch_template
+    launch_config = module.compute.launch_template.id
     security_group_web = module.network.web_se_group
     vpc_id = module.vpc.vpc_id
 
     auto_group_policy_var = {
       name = "alb_group_policy"
-      policy_type = "forward"
+      policy_type = "TargetTrackingScaling"
       predefined_metric_type = "ASGAverageCPUUtilization"
       target_value = 70.0
     }
     
     alb_var = {
-      name = "main_alb"
+      name = "main-alb"
       load_balancer_type = "application"
     }
 
     alb_target_group_var = {
-      name = "alb_target_group"
+      name = "alb-target-group"
       port = 80
       protocol = "HTTP"
       target_type = "instance"

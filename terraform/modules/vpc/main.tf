@@ -11,12 +11,12 @@ resource "aws_subnet" "public" {
   
   vpc_id            = aws_vpc.main-vpc.id
 
-  availability_zone = each.key # 키로 사용하겠음
-  cidr_block = each.value # 값으로 사용함
+  availability_zone = each.value.az # 키로 사용하겠음
+  cidr_block = each.value.cidr # 값으로 사용함
 
 
   tags = {
-    Name = "public-subnet-${each.value}"
+    Name = "public-subnet-${each.key}"
   }
 }
 
@@ -27,11 +27,11 @@ resource "aws_subnet" "private" {
 
   vpc_id = aws_vpc.main-vpc.id
 
-  availability_zone = each.key
-  cidr_block = each.value
+  availability_zone = each.value.az
+  cidr_block = each.value.cidr
 
 
   tags = {
-    Name = "private-subnet-${each.value}"
+    Name = "private-subnet-${each.key}"
   }
 }

@@ -7,7 +7,7 @@ output "vpc_id" {
 
 output "public_subnet" {
     description = "public 서브넷 내보내기"
-    value = values(aws_subnet.public)[*].id #values 붙이는 이유는 map 타입에서 list 형태로 타입변경
+    value = values(aws_subnet.public)[*].id  #values 붙이는 이유는 map 타입에서 list 형태로 타입변경
 }
 
 output "private_subnet" {
