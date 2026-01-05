@@ -19,12 +19,13 @@ resource "aws_internet_gateway" "main_IGW" {
   }
 }
 
-# 인터넷 게이트웨이 vpc 연결
+/*# 인터넷 게이트웨이 vpc 연결
 resource "aws_internet_gateway_attachment" "igw_attach" {
   internet_gateway_id = aws_internet_gateway.main_IGW.id
   vpc_id = var.vpc_id
   
 }
+*/
 
 # eip elastic ip 생성
 resource "aws_eip" "nat" {

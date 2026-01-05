@@ -53,7 +53,7 @@ module "compute" {
     private_subnet_ids = module.vpc.private_subnet[*]
 
     ami_value = "ami-0b818a04bc9c2133c"
-    instance_type_value = "t2.miro"
+    instance_type_value = "t2.micro"
     security_group_id = module.network.web_se_group
   
 }
@@ -99,7 +99,7 @@ module "asglb" {
 
     alb_listener_var = {
       port = "80"
-      protocol = "http"
+      protocol = "HTTP"
       type = "forward"
     }
 

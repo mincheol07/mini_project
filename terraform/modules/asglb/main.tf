@@ -9,7 +9,12 @@
     desired_capacity = var.group_desired_capacity
 
 
-    launch_configuration = var.launch_config
+    # launch_configuration = var.launch_config
+
+    launch_template {
+      id = var.launch_config
+      version = "$Latest"
+    }
 
     health_check_type = "ELB"
     health_check_grace_period = 300

@@ -13,6 +13,7 @@ resource "aws_subnet" "public" {
 
   availability_zone = each.value.az # 키로 사용하겠음
   cidr_block = each.value.cidr # 값으로 사용함
+  map_public_ip_on_launch = true
 
 
   tags = {

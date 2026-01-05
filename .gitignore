@@ -9,3 +9,4 @@ crash.*.log
 *.key
 *.log
 .DS_Store
+*.tfvars
