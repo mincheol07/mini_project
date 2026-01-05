@@ -3,6 +3,8 @@ resource "aws_instance" "bastion_host" {
     instance_type = var.instance_type_value
     ami = var.ami_value
     subnet_id = var.public_subnet_ids[0]
+
+    vpc_security_group_ids = [var.security_group_bastion_id]
     
 
     key_name = aws_key_pair.key.id
@@ -18,7 +20,7 @@ resource "aws_launch_template" "auto_template" {
     image_id = var.ami_value
     instance_type = var.instance_type_value
 
-    vpc_security_group_ids = [var.security_group_id]
+    vpc_security_group_ids = [var.security_group_web_id]
 
     monitoring {
       enabled = false

@@ -54,7 +54,8 @@ module "compute" {
 
     ami_value = "ami-0b818a04bc9c2133c"
     instance_type_value = "t2.micro"
-    security_group_id = module.network.web_se_group
+    security_group_web_id = module.network.web_se_group
+    security_group_bastion_id = module.network.bastion_se_group
   
 }
 

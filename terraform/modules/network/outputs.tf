@@ -4,3 +4,8 @@ output "web_se_group" {
   
 }
 
+output "bastion_se_group" {
+    description = "bastion 보안 그룹"
+    value = aws_security_group.bastion_se_group.id
+  
+}

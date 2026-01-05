@@ -23,8 +23,14 @@ variable "instance_type_value" {
   
 }
 
-variable "security_group_id" {
-    description = "보안그룹"
+variable "security_group_web_id" {
+    description = "web보안그룹"
+    type = string
+  
+}
+
+variable "security_group_bastion_id" {
+    description = "bastion host sg"
     type = string
   
 }
