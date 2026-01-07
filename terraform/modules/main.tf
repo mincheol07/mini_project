@@ -16,8 +16,8 @@ module "vpc" {
     # 3. 필수 변수: private_subnet 전달 오브젝트 형식
     private_subnet = {
         "ap-northeast-2a-1" = { az = "ap-northeast-2a", cidr = "10.0.3.0/24"},
-        "ap-northeast-2a-2" = { az = "ap-northeast-2c", cidr = "10.0.5.0/24"},
-        "ap-northeast-2c-1" = { az = "ap-northeast-2a", cidr = "10.0.4.0/24"},
+        "ap-northeast-2a-2" = { az = "ap-northeast-2a", cidr = "10.0.5.0/24"},
+        "ap-northeast-2c-1" = { az = "ap-northeast-2c", cidr = "10.0.4.0/24"},
         "ap-northeast-2c-2" = { az = "ap-northeast-2c", cidr = "10.0.6.0/24"
     }
     
