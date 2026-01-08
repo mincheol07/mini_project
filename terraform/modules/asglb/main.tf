@@ -21,6 +21,7 @@
 
     force_delete = true
     termination_policies = ["OldestInstance"]
+    target_group_arns = [ aws_lb_target_group.main_alb_target_group.arn ]
 
     tag {
       key = "main_auto_group"

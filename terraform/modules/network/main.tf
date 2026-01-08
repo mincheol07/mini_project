@@ -103,6 +103,14 @@ resource "aws_vpc_security_group_ingress_rule" "ssh_allow" {
   
 }
 
+resource "aws_vpc_security_group_egress_rule" "all_allow" {
+  security_group_id = aws_security_group.bastion_se_group.id
+  cidr_ipv4 = var.cidr_block_all
+  ip_protocol = "-1"
+  from_port = 0
+  to_port = 0
+  
+}
 
 
 resource "aws_vpc_security_group_ingress_rule" "http_allow" {
@@ -130,6 +138,15 @@ resource "aws_vpc_security_group_ingress_rule" "ssh_allow_2" {
   
 }
 
+resource "aws_vpc_security_group_egress_rule" "all_allow_2" {
+  security_group_id = aws_security_group.web_se_group.id
+  cidr_ipv4 = var.cidr_block_all
+  ip_protocol = "-1"
+  from_port = 0
+  to_port = 0
+  
+}
+
 
 
 resource "aws_vpc_security_group_ingress_rule" "db_allow" {
@@ -141,5 +158,14 @@ resource "aws_vpc_security_group_ingress_rule" "db_allow" {
   from_port = 3306
   to_port = 3306
 
+  
+}
+
+resource "aws_vpc_security_group_egress_rule" "all_allow_3" {
+  security_group_id = aws_security_group.db_se_group.id
+  cidr_ipv4 = var.cidr_block_all
+  ip_protocol = "-1"
+  from_port = 0
+  to_port = 0
   
 }
