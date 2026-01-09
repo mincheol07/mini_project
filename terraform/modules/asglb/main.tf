@@ -32,6 +32,7 @@
  }
 
 
+
  resource "aws_autoscaling_policy" "main_auto_group_policy" {
     name = var.auto_group_policy_var.name
     autoscaling_group_name = aws_autoscaling_group.main_group.name
@@ -50,6 +51,7 @@
     }
 
  }
+
 
 
  resource "aws_lb" "main_alb" {

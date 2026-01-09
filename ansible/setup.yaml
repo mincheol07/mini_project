@@ -1,0 +1,30 @@
+---
+- name: "Install and Configure Nginx"
+  hosts: localhost
+  connection: local
+  become: yes  # sudo 권한으로 실행
+
+  tasks:
+    - name: Nginx 패키지 설치
+      dnf:
+        name: nginx
+        state: present
+
+    - name: Nginx 서비스 시작 및 부팅 시 자동 실행 설정
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: 기본 인덱스 페이지 교체 (테스트용)
+      copy:
+        content: |
+          <html>
+          <head><title>Success!</title></head>
+          <body>
+            <h1>Hello! This server was configured by Ansible Pull.</h1>
+            <p>Server IP: {{ ansible_default_ipv4.address }}</p>
+          </body>
+          </html>
+        dest: /usr/share/nginx/html/index.html
+        mode: '0644'
