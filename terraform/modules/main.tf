@@ -90,7 +90,7 @@ module "asglb" {
       protocol = "HTTP"
       target_type = "instance"
 
-      path = "/healthy_check"
+      path = "/"
       healthy_threshold = 2
       unhealthy_threshold = 2
       timeout = 5
