@@ -1,4 +1,4 @@
-/* resource "aws_db_instance" "main_db" {
+ resource "aws_db_instance" "main_db" {
     identifier = "main-db"
     engine = "mariadb"
     engine_version = "10.11"
@@ -17,7 +17,8 @@
 
 
 
-resource "aws_db_subnet_group" "name" {
+resource "aws_db_subnet_group" "db_subnet_group" {
+    name = "main"
+    subnet_ids = var.db_subnet_group
   
 }
-*/

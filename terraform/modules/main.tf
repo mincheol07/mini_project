@@ -107,3 +107,10 @@ module "asglb" {
     public_subnet_ids = module.vpc.public_subnet
   
 }
+
+module "database" {
+  source = "./database"
+
+  db_subnet_group = [module.vpc.private_subnet[1], module.vpc.private_subnet[3]]
+  db_password = var.db_password
+}
