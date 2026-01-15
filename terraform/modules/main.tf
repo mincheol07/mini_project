@@ -44,8 +44,6 @@ module "network" {
 }
 
 
-
-
 module "compute" {
     source = "./compute"
 
@@ -56,6 +54,7 @@ module "compute" {
     instance_type_value = "t2.micro"
     security_group_web_id = module.network.web_se_group
     security_group_bastion_id = module.network.bastion_se_group
+    db_password = var.db_password
   
 }
 

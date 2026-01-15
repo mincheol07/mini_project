@@ -34,3 +34,10 @@ variable "security_group_bastion_id" {
     type = string
   
 }
+
+
+variable "db_password" {
+    type = string
+    description = "db 패스워드"
+  
+}
