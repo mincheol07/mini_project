@@ -36,8 +36,7 @@ variable "security_group_bastion_id" {
 }
 
 
-variable "db_password" {
-    type = string
-    description = "db 패스워드"
-  
-}
+variable "db_password" { }
+variable "db_address" { }
+variable "db_username" { }
+variable "db_name" { }

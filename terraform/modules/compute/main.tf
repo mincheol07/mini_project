@@ -59,10 +59,10 @@ resource "aws_launch_template" "auto_template" {
     # setup.yml: 깃 레포 안에 있는 플레이북 파일 이름
     cd $WORKDIR/ansible
     ansible-playbook setup.yml -c local \
-      -e "db_host=${aws_db_instance.main.address}" \
-      -e "db_user=${aws_db_instance.main.username}" \
+      -e "db_host=${var.db_address}" \
+      -e "db_user=${var.db_username}" \
       -e "db_password=${var.db_password}" \
-      -e "db_name=${aws_db_instance.main.db_name}"
+      -e "db_name=${var.db_name}"
 
     # 5. 로그 남기기
     echo "Ansible run completed at $(date)" >> /var/log/ansible-pull.log

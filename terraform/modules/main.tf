@@ -55,6 +55,10 @@ module "compute" {
     security_group_web_id = module.network.web_se_group
     security_group_bastion_id = module.network.bastion_se_group
     db_password = var.db_password
+    db_address = module.database.db_address
+    db_name = module.database.db_name
+    db_username = module.database.db_username
+
   
 }
 

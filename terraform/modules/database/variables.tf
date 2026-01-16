@@ -12,3 +12,8 @@ variable "db_subnet_group" {
   type = list(string)
   
 }
+
+variable "db_sg_group" {
+  description = "db "
+  type = string
+}
