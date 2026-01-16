@@ -12,7 +12,7 @@
     password = var.db_password
     db_subnet_group_name = aws_db_subnet_group.db_subnet_group.name
     vpc_security_group_ids = [  ]
-
+    skip_final_snapshot = true
   
 }
 

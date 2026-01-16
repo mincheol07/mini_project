@@ -151,10 +151,10 @@ resource "aws_vpc_security_group_egress_rule" "all_allow_2" {
 
 resource "aws_vpc_security_group_ingress_rule" "db_allow" {
   security_group_id = aws_security_group.db_se_group.id
-  for_each = toset(var.cidr_block_private_web)
-
+#  for_each = toset(var.cidr_block_private_web)
+  referenced_security_group_id = aws_security_group.web_se_group.id
   ip_protocol = var.ip_protocol_tcp
-  cidr_ipv4 = each.key
+# cidr_ipv4 = each.key
   from_port = 3306
   to_port = 3306
 

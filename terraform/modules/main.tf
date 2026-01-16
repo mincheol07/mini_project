@@ -116,4 +116,5 @@ module "database" {
 
   db_subnet_group = [module.vpc.private_subnet[1], module.vpc.private_subnet[3]]
   db_password = var.db_password
+  db_sg_group = module.network.db_sg_group
 }

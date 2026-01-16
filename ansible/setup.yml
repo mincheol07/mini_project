@@ -1,31 +1,31 @@
 ---
-- name: "Install and Configure Nginx"
+- name: "Install and Configure Nginx and Flask App"
   hosts: localhost
   connection: local
-  become: yes  # sudo 권한으로 실행
+  become: yes
 
   tasks:
+    # 1. Nginx 관련 설정 (기존 내용 유지)
     - name: Nginx 패키지 설치
       dnf:
         name: nginx
         state: present
 
-    - name: Nginx 서비스 시작 및 부팅 시 자동 실행 설정
+    - name: Nginx 서비스 시작 및 활성화
       service:
         name: nginx
         state: started
         enabled: yes
 
-    - name: Nginx 리버스 프록시 설정 파일 생성
+    - name: Nginx 리버스 프록시 설정
       copy:
         dest: /etc/nginx/conf.d/flask_proxy.conf
         content: |
           server {
               listen 80;
               server_name _;
-
               location / {
-                  proxy_pass http://127.0.0.1:5000;  # Flask가 실행 중인 포트
+                  proxy_pass http://127.0.0.1:5000;
                   proxy_set_header Host $host;
                   proxy_set_header X-Real-IP $remote_addr;
                   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -33,12 +33,45 @@
               }
           }
 
-    - name: 기본 Nginx 설정과 충돌 방지를 위해 기본 site 비활성화 (필요 시)
-      file:
-        path: /etc/nginx/conf.d/default.conf
-        state: absent
-
-    - name: Nginx 재시작하여 설정 적용
+    - name: Nginx 재시작
       service:
         name: nginx
         state: restarted
+
+    # 2. Flask 실행 환경 구축 (추가된 부분)
+    - name: Python3 및 pip 설치
+      dnf:
+        name: 
+          - python3-pip
+          - python3-devel
+        state: present
+
+    - name: Flask 및 DB 연동을 위한 라이브러리 설치
+      pip:
+        name:
+          - flask
+          - flask-sqlalchemy
+          - pymysql
+          - cryptography
+          - gunicorn
+        executable: pip3
+
+    - name: Gunicorn을 사용하여 Flask 앱 실행 (환경변수 주입)
+      shell: |
+        # 테라폼 User Data에서 넘겨준 변수가 있다면 여기서 export 합니다.
+        # 변수가 전달되지 않는 환경을 대비해 기본값 처리를 할 수도 있습니다.
+        export DB_HOST="{{ db_host | default('localhost') }}"
+        export DB_USER="{{ db_user | default('admin') }}"
+        export DB_PASSWORD="{{ db_password | default('password123') }}"
+        export DB_NAME="{{ db_name | default('testdb') }}"
+
+        # Flask 앱 폴더로 이동 (경로 확인 필수)
+        cd /home/ec2-user/flaskweb
+        
+        # 기존 실행 중인 Gunicorn 프로세스 종료 (재배포 시 필요)
+        pkill gunicorn || true
+        
+        # Gunicorn 실행 (백그라운드)
+        nohup gunicorn -w 2 -b 127.0.0.1:5000 app:app > gunicorn.log 2>&1 &
+      async: 10
+      poll: 0

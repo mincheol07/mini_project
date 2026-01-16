@@ -9,3 +9,9 @@ output "bastion_se_group" {
     value = aws_security_group.bastion_se_group.id
   
 }
+
+output "db_sg_group" {
+    description = "db 보안 그룹"
+    value = aws_security_group.db_se_group.id
+  
+}
