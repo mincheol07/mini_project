@@ -43,20 +43,33 @@ resource "aws_launch_template" "auto_template" {
 
     user_data = base64encode(<<-EOF
     #!/bin/bash
-    # 1. 필요한 패키지 설치 (git, ansible)
+    # 1. 패키지 설치
     dnf update -y
     dnf install -y git ansible-core
 
-    # 2. 작업 디렉토리 생성 및 이동
+    # 2. 작업 폴더 준비 및 권한 설정
     WORKDIR="/home/ec2-user/ansible-setup"
     mkdir -p $WORKDIR
-    
-    # 3. 깃허브에서 플레이북 가져오기
+    # 깃 클론을 위해 폴더 주인을 ec2-user로 변경
+    chown ec2-user:ec2-user $WORKDIR
+
+    # 3. 깃허브에서 최신 코드 가져오기
+    # 주의: 이미 폴더가 있으면 에러 날 수 있으니 비어있는 상태에서 수행
     git clone https://github.com/mincheol07/mini_project.git $WORKDIR
 
-    # 4. 앤서블 실행
-    # -c local: 자기 자신에게 적용
-    # setup.yml: 깃 레포 안에 있는 플레이북 파일 이름
+    # 4. 환경 변수를 시스템 전체 설정에 등록 (핵심)
+    # 이렇게 해야 나중에 Gunicorn이 실행될 때 이 값들을 읽을 수 있습니다.
+    cat <<EOT > /etc/profile.d/flask_env.sh
+    export DB_HOST="${var.db_address}"
+    export DB_USER="${var.db_username}"
+    export DB_PASSWORD="${var.db_password}"
+    export DB_NAME="${var.db_name}"
+    EOT
+
+    # 현재 실행 중인 이 쉘에도 즉시 적용
+    source /etc/profile.d/flask_env.sh
+
+    # 5. 앤서블 플레이북 실행
     cd $WORKDIR/ansible
     ansible-playbook setup.yml -c local \
       -e "db_host=${var.db_address}" \
@@ -64,8 +77,8 @@ resource "aws_launch_template" "auto_template" {
       -e "db_password=${var.db_password}" \
       -e "db_name=${var.db_name}"
 
-    # 5. 로그 남기기
-    echo "Ansible run completed at $(date)" >> /var/log/ansible-pull.log
+    # 6. 완료 로그 기록
+    echo "Deployment finished at $(date)" >> /var/log/user_data.log
   EOF
   )
 
