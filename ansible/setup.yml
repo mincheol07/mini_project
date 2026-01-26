@@ -56,13 +56,6 @@
           - gunicorn
         executable: pip3
         
-    - name: Flask 폴더 소유권 변경 (권한 에러 방지)
-      file:
-        path: /home/ec2-user/ansible-setup
-        owner: ec2-user
-        group: ec2-user
-        recurse: yes
-
     - name: Gunicorn을 사용하여 Flask 앱 실행 (환경변수 주입)
       shell: |
         # 테라폼 User Data에서 넘겨준 변수가 있다면 여기서 export 합니다.

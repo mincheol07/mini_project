@@ -51,7 +51,7 @@ resource "aws_launch_template" "auto_template" {
     WORKDIR="/home/ec2-user/project"
     mkdir -p $WORKDIR
     # 깃 클론을 위해 폴더 주인을 ec2-user로 변경
-    chown ec2-user:ec2-user $WORKDIR
+    chown -R ec2-user:ec2-user /home/ec2-user/project
 
     # 3. 깃허브에서 최신 코드 가져오기
     # 주의: 이미 폴더가 있으면 에러 날 수 있으니 비어있는 상태에서 수행
@@ -77,7 +77,7 @@ resource "aws_launch_template" "auto_template" {
     -e "db_user=${var.db_username}" \
     -e "db_password=${var.db_password}" \
     -e "db_name=${var.db_name}" \
-    --log-path /var/log/ansible_detail.log
+    > /var/log/ansible_run.log 2>&1
    EOF
   )
 
