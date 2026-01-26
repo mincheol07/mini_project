@@ -48,7 +48,7 @@ resource "aws_launch_template" "auto_template" {
     dnf install -y git ansible-core
 
     # 2. 작업 폴더 준비 및 권한 설정
-    WORKDIR="/home/ec2-user/ansible-setup"
+    WORKDIR="/home/ec2-user/project"
     mkdir -p $WORKDIR
     # 깃 클론을 위해 폴더 주인을 ec2-user로 변경
     chown ec2-user:ec2-user $WORKDIR
@@ -70,16 +70,15 @@ resource "aws_launch_template" "auto_template" {
     source /etc/profile.d/flask_env.sh
 
     # 5. 앤서블 플레이북 실행
-    cd $WORKDIR/ansible
+    cd /home/ec2-user/project/ansible/
     ansible-playbook setup.yml -c local \
-      -e "db_host=${var.db_address}" \
-      -e "db_user=${var.db_username}" \
-      -e "db_password=${var.db_password}" \
-      -e "db_name=${var.db_name}"
-
-    # 6. 완료 로그 기록
-    echo "Deployment finished at $(date)" >> /var/log/user_data.log
-  EOF
+    -vvv \
+    -e "db_host=${var.db_address}" \
+    -e "db_user=${var.db_username}" \
+    -e "db_password=${var.db_password}" \
+    -e "db_name=${var.db_name}" \
+    --log-path /var/log/ansible_detail.log
+   EOF
   )
 
   

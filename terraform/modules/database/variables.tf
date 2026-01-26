@@ -14,6 +14,6 @@ variable "db_subnet_group" {
 }
 
 variable "db_sg_group" {
-  description = "db "
+  description = "db 보안 그룹"
   type = string
 }
