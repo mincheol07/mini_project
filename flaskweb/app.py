@@ -23,6 +23,9 @@ class GuestBook(db.Model):
     content = db.Column(db.String(200), nullable=False)
 
 
+with app.app_context():
+    db.create_all()
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -53,6 +56,4 @@ def index():
 
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(host='0.0.0.0', port=5000)
