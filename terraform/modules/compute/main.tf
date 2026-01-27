@@ -50,12 +50,13 @@ resource "aws_launch_template" "auto_template" {
     # 2. 작업 폴더 준비 및 권한 설정
     WORKDIR="/home/ec2-user/project"
     mkdir -p $WORKDIR
-    # 깃 클론을 위해 폴더 주인을 ec2-user로 변경
-    chown -R ec2-user:ec2-user /home/ec2-user/project
-
+   
     # 3. 깃허브에서 최신 코드 가져오기
     # 주의: 이미 폴더가 있으면 에러 날 수 있으니 비어있는 상태에서 수행
     git clone https://github.com/mincheol07/mini_project.git $WORKDIR
+
+    # 깃 클론을 위해 폴더 주인을 ec2-user로 변경
+    sudo chown -R ec2-user:ec2-user /home/ec2-user/project
 
     # 4. 환경 변수를 시스템 전체 설정에 등록 (핵심)
     # 이렇게 해야 나중에 Gunicorn이 실행될 때 이 값들을 읽을 수 있습니다.

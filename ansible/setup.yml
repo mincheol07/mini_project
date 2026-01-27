@@ -66,7 +66,7 @@
         export DB_NAME="{{ db_name | default('testdb') }}"
 
         # Flask 앱 폴더로 이동 (경로 확인 필수)
-        cd /home/ec2-user/flaskweb
+        cd /home/ec2-user/project/flaskweb/
         
         # 기존 실행 중인 Gunicorn 프로세스 종료 (재배포 시 필요)
         pkill gunicorn || true
